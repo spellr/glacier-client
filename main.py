@@ -14,7 +14,7 @@ window: QMainWindow = Window()
 form = Form()
 form.setupUi(window)
 
-RegionTree(window)
+RegionTree.initialize(window)
 
 window.show()
 app.exec_()

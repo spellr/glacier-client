@@ -134,6 +134,12 @@
           </item>
           <item>
            <widget class="QTreeView" name="treeView">
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
+            </property>
+            <property name="autoExpandDelay">
+             <number>0</number>
+            </property>
             <attribute name="headerVisible">
              <bool>false</bool>
             </attribute>
