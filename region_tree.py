@@ -18,6 +18,6 @@ class RegionTree(object):
         for region in REGIONS:
             item = QStandardItem(region.name)
             root.appendRow(item)
-            TaskManager.add_task(ListVaultsTask(region))
+            TaskManager.add_task(ListVaultsTask(region, self.view))
 
         self.view.setModel(self.model)
