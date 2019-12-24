@@ -138,7 +138,7 @@
           <item>
            <widget class="QTreeView" name="treeView">
             <property name="contextMenuPolicy">
-             <enum>Qt::ActionsContextMenu</enum>
+             <enum>Qt::CustomContextMenu</enum>
             </property>
             <property name="editTriggers">
              <set>QAbstractItemView::NoEditTriggers</set>
