@@ -6,7 +6,7 @@ from widgets.region_tree import RegionTree
 from widgets.tasks_table import TasksTable
 from task_manager import TaskManager
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 Form, Window = uic.loadUiType("mainwindow.ui")
 app = QApplication([])

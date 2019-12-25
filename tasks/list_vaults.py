@@ -1,6 +1,6 @@
 import boto3
 
-from consts import Region
+from regions import Region
 from tasks.base_task import Task
 from keys import PUBLIC_KEY, SECRET_KEY
 

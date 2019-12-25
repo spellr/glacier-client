@@ -1,14 +1,13 @@
 from typing import cast
 
 from PyQt5.QtCore import QModelIndex
-
-from task_manager import TaskManager
-from tasks.list_vaults import ListVaultsTask
-
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QTreeView, QMainWindow, QAction, QMenu
 
-from consts import REGIONS
+import regions
+from regions import REGIONS
+from task_manager import TaskManager
+from tasks import GetInventoryTask, ListVaultsTask
 
 
 class _RegionTree(object):
@@ -74,7 +73,11 @@ class _RegionTree(object):
         self.model.rowsInserted.emit(parent, 0, child_count)
 
     def get_inventory_action(self):
-        print(self.view.selectedIndexes()[0].data())
+        vault_name = self.view.selectedIndexes()[0].data()
+        region_name = self.view.selectedIndexes()[0].parent().data()
+        region = regions.get_by_name(region_name)
+
+        TaskManager.add_task(GetInventoryTask(region, vault_name))
 
 
 RegionTree = _RegionTree()

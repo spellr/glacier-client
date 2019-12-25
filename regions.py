@@ -20,3 +20,7 @@ REGIONS = [
     Region("EU (Stockholm)", "eu-north-1"),
     Region("South America (Sao Paulo)", "sa-east-1"),
 ]
+
+
+def get_by_name(region_name):
+    return next(region for region in REGIONS if region.name == region_name)
