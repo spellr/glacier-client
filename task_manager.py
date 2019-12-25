@@ -18,7 +18,7 @@ class TaskRunner(QRunnable):
                 task: Task = self.tasks.get_task()
                 task_line = TasksTable.add_task(str(task), "")
                 logging.info("Got task %s", task)
-                task.start()
+                task.start(task_line)
                 TasksTable.remove_task(task_line)
             except:
                 logging.exception("Failed to run task")

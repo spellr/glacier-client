@@ -7,7 +7,8 @@ from PyQt5.QtWidgets import QTreeView, QMainWindow, QAction, QMenu
 import regions
 from regions import REGIONS
 from task_manager import TaskManager
-from tasks import GetInventoryTask, ListVaultsTask
+from tasks.get_inventory import GetInventoryTask
+from tasks.list_vaults import ListVaultsTask
 
 
 class _RegionTree(object):
