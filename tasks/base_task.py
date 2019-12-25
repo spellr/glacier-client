@@ -1,7 +1,11 @@
 import abc
+import consts
 import logging
 
-import boto3
+if consts.DEBUG:
+    from fake_boto3 import boto3
+else:
+    import boto3
 
 from regions import Region
 from keys import PUBLIC_KEY, SECRET_KEY

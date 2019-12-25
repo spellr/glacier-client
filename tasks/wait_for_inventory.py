@@ -3,8 +3,11 @@ from datetime import timedelta, datetime
 
 from munch import munchify
 
+import consts
 from regions import Region
+from task_manager import TaskManager
 from tasks.base_task import Task
+from tasks.download_inventory import DownloadInventoryTask
 
 
 class WaitForInventoryTask(Task):
@@ -20,15 +23,19 @@ class WaitForInventoryTask(Task):
     def run(self):
         client = self.get_boto_client()
 
-        completed = False
-        while not completed:
-            job_output = client.describe_job(vaultName=self.vault, jobId=self.job_id)
-            completed = job_output["Completed"]
+        job_output = client.describe_job(vaultName=self.vault, jobId=self.job_id)
+        completed = job_output["Completed"]
 
+        while not completed:
             self.next_check = (datetime.now() + timedelta(seconds=self.SLEEP_TIME)).time()
             self.update_task()
 
             time.sleep(self.SLEEP_TIME)
+
+            job_output = client.describe_job(vaultName=self.vault, jobId=self.job_id)
+            completed = job_output["Completed"]
+
+        TaskManager.add_task(DownloadInventoryTask(self.region, self.vault, self.job))
 
     def __repr__(self):
         if self.next_check:
