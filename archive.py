@@ -10,5 +10,8 @@ class Archive:
         self.size: int = archive_item["Size"]
         self.hash: str = archive_item["SHA256TreeHash"]
         description = archive_item["ArchiveDescription"]
-        self.path = str(base64.urlsafe_b64decode(ElementTree.fromstring(description).find('p').text))
+        self.path = base64.urlsafe_b64decode(ElementTree.fromstring(description).find('p').text).decode('utf8')
         self.is_dir: bool = self.path.endswith('/')
+
+    def __repr__(self):
+        return f"Archive(path={self.path}, size={self.size})"

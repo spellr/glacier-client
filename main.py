@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 
 from widgets.region_tree import RegionTree
 from widgets.tasks_table import TasksTable
+from widgets.files_table import FilesTable
 from task_manager import TaskManager
 
 logging.basicConfig(level=logging.DEBUG)
@@ -18,6 +19,7 @@ form.setupUi(window)
 
 TasksTable.initialize(window)
 RegionTree.initialize(window)
+FilesTable.initialize(window)
 
 TaskManager.start()
 

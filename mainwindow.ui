@@ -159,41 +159,13 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <widget class="QTableWidget" name="tableWidget">
+           <widget class="QTableView" name="filesTable">
             <property name="styleSheet">
              <string notr="true">#QHeaderView::section { background-color:#dddddd; }</string>
             </property>
-            <property name="columnCount">
-             <number>5</number>
+            <property name="selectionBehavior">
+             <enum>QAbstractItemView::SelectRows</enum>
             </property>
-            <attribute name="verticalHeaderVisible">
-             <bool>false</bool>
-            </attribute>
-            <column>
-             <property name="text">
-              <string>File</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>New Column</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Type</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>LastModified</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>InventoryDate</string>
-             </property>
-            </column>
            </widget>
           </item>
           <item>
