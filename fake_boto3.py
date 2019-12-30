@@ -15,6 +15,11 @@ client.describe_job.return_value = {
     "Completed": True
 }
 
-client.get_job_output.return_value = {
-    "body": open('inventory.json')
-}
+
+def get_inventory(vaultName, jobId):
+    return {
+        "body": open('inventory.json')
+    }
+
+
+client.get_job_output.side_effect = get_inventory
