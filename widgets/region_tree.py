@@ -5,10 +5,12 @@ from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QTreeView, QMainWindow, QAction, QMenu
 
 import regions
+from inventory_manager import Inventories
 from regions import REGIONS
 from task_manager import TaskManager
 from tasks.get_inventory import GetInventoryTask
 from tasks.list_vaults import ListVaultsTask
+from widgets.files_table import FilesTable
 
 
 class _RegionTree(object):
@@ -16,9 +18,19 @@ class _RegionTree(object):
         self.view = None
         self.model = None
 
+    def on_clicked(self, index: QModelIndex):
+        if not index.parent().isValid():
+            return
+
+        region_name = index.parent().data()
+        region = regions.get_by_name(region_name)
+        inventory = Inventories.get_inventory(region)
+        FilesTable.display_inventory(inventory)
+
     def initialize(self, window: QMainWindow):
         self.view: QTreeView = cast(QTreeView, window.findChild(QTreeView, 'treeView'))
 
+        self.view.clicked.connect(self.on_clicked)
         self.view.customContextMenuRequested.connect(self.open_menu)
 
         self.model = QStandardItemModel()

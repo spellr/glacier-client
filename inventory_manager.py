@@ -7,7 +7,7 @@ from regions import Region
 
 class _Inventories(object):
     def __init__(self):
-        self.inventories: Dict[Region, Sequence[Archive]] = defaultdict(lambda x: [])
+        self.inventories: Dict[Region, Sequence[Archive]] = defaultdict(lambda: [])
 
     def new_inventory(self, region_name: Region, inventory: Sequence[Archive]):
         self.inventories[region_name] = inventory
