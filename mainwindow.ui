@@ -159,13 +159,28 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <widget class="QTableView" name="filesTable">
+           <widget class="QTableWidget" name="filesTable">
             <property name="styleSheet">
              <string notr="true">#QHeaderView::section { background-color:#dddddd; }</string>
             </property>
             <property name="selectionBehavior">
              <enum>QAbstractItemView::SelectRows</enum>
             </property>
+            <column>
+             <property name="text">
+              <string>Description</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Size</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Creation Date</string>
+             </property>
+            </column>
            </widget>
           </item>
           <item>

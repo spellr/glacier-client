@@ -9,12 +9,7 @@ class Archive:
         self.creation_date: datetime = dateutil.parser.parse(archive_item["CreationDate"])
         self.size: int = archive_item["Size"]
         self.hash: str = archive_item["SHA256TreeHash"]
-        description = archive_item["ArchiveDescription"]
-        if '<p>' in description:
-            self.path = base64.urlsafe_b64decode(ElementTree.fromstring(description).find('p').text).decode('utf8')
-        else:
-            self.path = description
-        self.is_dir: bool = self.path.endswith('/')
+        self.description = archive_item["ArchiveDescription"]
 
     def __repr__(self):
-        return f"Archive(path={self.path}, size={self.size})"
+        return f"Archive(description={self.description}, size={self.size})"
