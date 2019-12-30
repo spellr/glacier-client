@@ -1,11 +1,11 @@
 import logging
-from typing import Iterator
-from collections import defaultdict
+from typing import Iterator, List
 
 import ijson
 from munch import munchify
 
 from archive import Archive
+from inventory_manager import Inventories
 from regions import Region
 from tasks.base_task import Task
 from widgets.files_table import FilesTable
@@ -24,9 +24,9 @@ class DownloadInventoryTask(Task):
         job = client.output = client.get_job_output(vaultName=self.vault, jobId=self.job_id)
         body_stream = job['body']
 
-        inventory = list(self.get_archives_list(body_stream))
-        print(inventory)
+        inventory: List[Archive] = list(self.get_archives_list(body_stream))
 
+        Inventories.new_inventory(self.region, inventory)
         FilesTable.display_inventory(inventory)
 
     def __repr__(self):
