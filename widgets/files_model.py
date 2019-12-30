@@ -16,8 +16,24 @@ class _FilesModel(QAbstractItemModel):
 
         import pickle
         self.filesystem = pickle.load(open(r'C:\Temp\asdf.pickle', 'rb'))
+        self.cur_dir = self.filesystem
 
         self.root = object()
+
+    def file_name(self, index: QModelIndex):
+        archive: Archive = index.internalPointer()
+        return PurePosixPath(archive.path).name
+
+    def row_clicked(self, index: QModelIndex):
+        archive: Archive = index.internalPointer()
+        if not archive.is_dir:
+            return
+
+        file_name = PurePosixPath(archive.path).name
+
+        self.beginResetModel()
+        self.cur_dir = self.cur_dir[file_name]
+        self.endResetModel()
 
     def headerData(self, section: int, orientation: Qt.Orientation, role: int = Qt.DisplayRole) -> typing.Any:
         if orientation != Qt.Horizontal or role != Qt.DisplayRole:
@@ -32,8 +48,10 @@ class _FilesModel(QAbstractItemModel):
 
     def rowCount(self, parent: QtCore.QModelIndex = QModelIndex()) -> int:
         if not parent.isValid():
-            return len(self.filesystem.keys())
-        return 0
+            if '' in self.cur_dir:
+                return len(self.cur_dir.keys()) - 1
+            else:
+                return len(self.cur_dir.keys())
 
     def columnCount(self, parent: QModelIndex = QModelIndex()) -> int:
         return 0 if parent.column() > 0 else 3
@@ -41,16 +59,17 @@ class _FilesModel(QAbstractItemModel):
     def set_file_system(self, filesystem):
         self.beginResetModel()
         self.filesystem = filesystem
+        self.cur_dir = self.filesystem
         self.endResetModel()
 
     def index(self, row: int, column: int, parent: QtCore.QModelIndex = QModelIndex()) -> QtCore.QModelIndex:
         if row < 0 or column < 0 or row >= self.rowCount(parent) or column >= self.columnCount(parent):
             return QModelIndex()
 
-        parent_node = {} if parent.isValid() else self.filesystem
-
-        child_name = sorted(parent_node)[row]
-        archive = parent_node[child_name]
+        child_name = sorted(self.cur_dir)[row]
+        if child_name == '':
+            child_name = sorted(self.cur_dir)[row + 1]
+        archive = self.cur_dir[child_name]
         if isinstance(archive, dict):
             archive = archive['']
 
