@@ -21,7 +21,5 @@ TasksTable.initialize(window)
 RegionTree.initialize(window)
 FilesTable.initialize(window)
 
-TaskManager.start()
-
 window.show()
 app.exec_()

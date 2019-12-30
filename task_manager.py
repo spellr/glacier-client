@@ -13,15 +13,14 @@ class TaskRunner(QRunnable):
         self.tasks = tasks
 
     def run(self):
-        while True:
-            try:
-                task: Task = self.tasks.get_task()
-                task_line = TasksTable.add_task(str(task), "")
-                logging.info("Got task %s", task)
-                task.start(task_line)
-                TasksTable.remove_task(task_line)
-            except:
-                logging.exception("Failed to run task")
+        try:
+            task: Task = self.tasks.get_task()
+            task_line = TasksTable.add_task(str(task), "")
+            logging.info("Got task %s", task)
+            task.start(task_line)
+            TasksTable.remove_task(task_line)
+        except:
+            logging.exception("Failed to run task")
 
 
 class TaskManagerSingleton(object):
@@ -34,13 +33,10 @@ class TaskManagerSingleton(object):
 
     def add_task(self, task: Task):
         self.tasks.put(task)
+        self.thread_pool.start(TaskRunner(self))
 
     def get_task(self) -> Task:
         return self.tasks.get()
-
-    def start(self):
-        for _ in range(self.THREAD_POOL_SIZE):
-            self.thread_pool.start(TaskRunner(self))
 
 
 TaskManager = TaskManagerSingleton()
