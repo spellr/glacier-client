@@ -1,6 +1,6 @@
 from typing import cast, Optional
 
-from PyQt5.QtWidgets import QMainWindow, QTableWidget, QTableView
+from PyQt5.QtWidgets import QMainWindow, QTableWidget, QTableView, QFileSystemModel
 
 from widgets.files_model import FilesModel
 
