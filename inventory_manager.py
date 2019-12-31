@@ -7,13 +7,13 @@ from regions import Region
 
 class _Inventories(object):
     def __init__(self):
-        self.inventories: Dict[Region, Sequence[Archive]] = defaultdict(lambda: [])
+        self.inventories: Dict[str, Sequence[Archive]] = defaultdict(lambda: [])
 
-    def new_inventory(self, region_name: Region, inventory: Sequence[Archive]):
-        self.inventories[region_name] = inventory
+    def new_inventory(self, region: Region, vault: str, inventory: Sequence[Archive]):
+        self.inventories[region.code + vault] = inventory
 
-    def get_inventory(self, region_name: Region):
-        return self.inventories[region_name]
+    def get_inventory(self, region: Region, vault: str):
+        return self.inventories[region.code + vault]
 
 
 Inventories = _Inventories()

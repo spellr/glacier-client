@@ -4,6 +4,8 @@ from typing import cast, Optional
 from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import QMainWindow, QPushButton
 
+from regions import Region
+from widgets import widgets_map
 from task_manager import TaskManager
 from tasks.download_archive import DownloadArchive
 
@@ -18,7 +20,11 @@ class _DownloadButton(QObject):
 
     def on_click(self):
         logging.info("Download clicked!")
-        # TaskManager.add_task(DownloadArchive(region, self))
+        region_tree = widgets_map['region_tree']
+        region: Region = region_tree.get_selected_region()
+        vault: str = region_tree.get_selected_vault()
+        print(region, vault)
+        # TaskManager.add_task(DownloadArchive(region, vault, archive))
 
     def initialize(self, window: QMainWindow):
         self.button = cast(QPushButton, window.findChild(QPushButton, 'download_btn'))
@@ -27,3 +33,4 @@ class _DownloadButton(QObject):
 
 
 DownloadButton = _DownloadButton()
+widgets_map['download_button'] = DownloadButton

@@ -5,6 +5,7 @@ from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QTreeView, QMainWindow, QAction, QMenu
 
 import regions
+from widgets import widgets_map
 from inventory_manager import Inventories
 from regions import REGIONS
 from task_manager import TaskManager
@@ -22,10 +23,26 @@ class _RegionTree(object):
         if not index.parent().isValid():
             return
 
-        region_name = index.parent().data()
-        region = regions.get_by_name(region_name)
-        inventory = Inventories.get_inventory(region)
+        region = self.get_selected_region()
+        vault = self.get_selected_vault()
+        inventory = Inventories.get_inventory(region, vault)
         FilesTable.display_inventory(inventory)
+
+    def get_selected_region(self):
+        index = self.view.selectedIndexes()[0]
+
+        if index.parent().isValid():
+            region_name = index.parent().data()
+        else:
+            region_name = index.data()
+
+        return regions.get_by_name(region_name)
+
+    def get_selected_vault(self):
+        index = self.view.selectedIndexes()[0]
+        if not index.parent().isValid():
+            return None
+        return index.data()
 
     def initialize(self, window: QMainWindow):
         self.view: QTreeView = cast(QTreeView, window.findChild(QTreeView, 'treeView'))
@@ -87,10 +104,10 @@ class _RegionTree(object):
 
     def get_inventory_action(self):
         vault_name = self.view.selectedIndexes()[0].data()
-        region_name = self.view.selectedIndexes()[0].parent().data()
-        region = regions.get_by_name(region_name)
+        region = self.get_selected_region()
 
         TaskManager.add_task(GetInventoryTask(region, vault_name))
 
 
 RegionTree = _RegionTree()
+widgets_map['region_tree'] = RegionTree
