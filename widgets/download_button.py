@@ -4,6 +4,9 @@ from typing import cast, Optional
 from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import QMainWindow, QPushButton
 
+from task_manager import TaskManager
+from tasks.download_archive import DownloadArchive
+
 
 class _DownloadButton(QObject):
     def __init__(self):
@@ -15,6 +18,7 @@ class _DownloadButton(QObject):
 
     def on_click(self):
         logging.info("Download clicked!")
+        # TaskManager.add_task(DownloadArchive(region, self))
 
     def initialize(self, window: QMainWindow):
         self.button = cast(QPushButton, window.findChild(QPushButton, 'download_btn'))

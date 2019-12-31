@@ -21,7 +21,7 @@ class DownloadInventoryTask(Task):
     def run(self):
         client = self.get_boto_client()
         logging.info("Initiating job to retrieve inventory")
-        job = client.output = client.get_job_output(vaultName=self.vault, jobId=self.job_id)
+        job = client.get_job_output(vaultName=self.vault, jobId=self.job_id)
         body_stream = job['body']
 
         inventory: List[Archive] = list(self.get_archives_list(body_stream))
