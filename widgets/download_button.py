@@ -20,9 +20,9 @@ class _DownloadButton(QObject):
 
     def on_click(self):
         logging.info("Download clicked!")
-        region_tree = widgets_map['region_tree']
-        region: Region = region_tree.get_selected_region()
-        vault: str = region_tree.get_selected_vault()
+        files_table = widgets_map['files_table']
+        region: Region = files_table.displayed_region
+        vault: str = files_table.displayed_vault
         print(region, vault)
         # TaskManager.add_task(DownloadArchive(region, vault, archive))
 

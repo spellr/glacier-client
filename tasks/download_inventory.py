@@ -27,7 +27,7 @@ class DownloadInventoryTask(Task):
         inventory: List[Archive] = list(self.get_archives_list(body_stream))
 
         Inventories.new_inventory(self.region, self.vault, inventory)
-        FilesTable.display_inventory(inventory)
+        FilesTable.display_inventory(self.region, self.vault, inventory)
 
     def __repr__(self):
         return f"Downloading inventory from region '{self.region.name}', vault '{self.vault}'"

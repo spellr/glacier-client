@@ -1,4 +1,7 @@
 from typing import cast, Optional, Sequence
+
+from regions import Region
+from widgets import widgets_map
 from widgets.download_button import DownloadButton
 
 from PyQt5.QtWidgets import QMainWindow, QTableWidget, QTableWidgetItem
@@ -10,6 +13,9 @@ class _FilesTable(object):
     def __init__(self):
         self.view: Optional[QTableWidget] = None
 
+        self.displayed_region: Optional[Region] = None
+        self.displayed_vault: Optional[str] = None
+
     def sizeof_fmt(self, num, suffix='B'):
         for unit in ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z']:
             if abs(num) < 1024.0:
@@ -17,7 +23,10 @@ class _FilesTable(object):
             num /= 1024.0
         return "%.1f%s%s" % (num, 'Yi', suffix)
 
-    def display_inventory(self, inventory: Sequence[Archive]):
+    def display_inventory(self, region: Region, vault: str, inventory: Sequence[Archive]):
+        self.displayed_region = region
+        self.displayed_vault = vault
+
         self.view.clearContents()
         self.view.setRowCount(len(inventory))
 
@@ -39,3 +48,4 @@ class _FilesTable(object):
 
 
 FilesTable = _FilesTable()
+widgets_map['files_table'] = FilesTable

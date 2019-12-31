@@ -26,7 +26,7 @@ class _RegionTree(object):
         region = self.get_selected_region()
         vault = self.get_selected_vault()
         inventory = Inventories.get_inventory(region, vault)
-        FilesTable.display_inventory(inventory)
+        FilesTable.display_inventory(region, vault, inventory)
 
     def get_selected_region(self):
         index = self.view.selectedIndexes()[0]
