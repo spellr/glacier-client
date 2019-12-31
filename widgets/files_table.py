@@ -1,4 +1,5 @@
 from typing import cast, Optional, Sequence
+from widgets.download_button import DownloadButton
 
 from PyQt5.QtWidgets import QMainWindow, QTableWidget, QTableWidgetItem
 
@@ -30,6 +31,11 @@ class _FilesTable(object):
 
     def initialize(self, window: QMainWindow):
         self.view: QTableWidget = cast(QTableWidget, window.findChild(QTableWidget, 'filesTable'))
+        self.view.itemSelectionChanged.connect(self.on_item_selection_changed)
+
+    def on_item_selection_changed(self):
+        is_selected_items = bool(self.view.selectedItems())
+        DownloadButton.set_enabled(is_selected_items)
 
 
 FilesTable = _FilesTable()
