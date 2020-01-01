@@ -8,7 +8,7 @@ from archive import Archive
 from regions import Region
 from widgets import widgets_map
 from task_manager import TaskManager
-from tasks.download_archive import DownloadArchive
+from tasks.get_archive import GetArchiveTask
 
 
 class _DownloadButton(QObject):
@@ -25,7 +25,7 @@ class _DownloadButton(QObject):
         region: Region = files_table.displayed_region
         vault: str = files_table.displayed_vault
         archive: Archive = files_table.get_active_archive()
-        TaskManager.add_task(DownloadArchive(region, vault, archive))
+        TaskManager.add_task(GetArchiveTask(region, vault, archive))
 
     def initialize(self, window: QMainWindow):
         self.button = cast(QPushButton, window.findChild(QPushButton, 'download_btn'))

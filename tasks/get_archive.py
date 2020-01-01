@@ -2,12 +2,14 @@ import logging
 
 from archive import Archive
 from regions import Region
+from task_manager import TaskManager
 from tasks.base_task import Task
+from tasks.wait_for_job import WaitForJobTask, JobOutput
 
 
-class DownloadArchive(Task):
+class GetArchiveTask(Task):
     def __init__(self, region: Region, vault: str, archive: Archive):
-        super(DownloadArchive, self).__init__(region)
+        super(GetArchiveTask, self).__init__(region)
         self.archive: Archive = archive
         self.vault = vault
 
@@ -24,3 +26,5 @@ class DownloadArchive(Task):
         }
         job = client.initiate_job(vaultName=self.vault, jobParameters=job_params)
         logging.info(f"Initiated job to retrieve archive. Job id = {job['jobId']}")
+
+        TaskManager.add_task(WaitForJobTask(self.region, self.vault, job, JobOutput.ARCHIVE))

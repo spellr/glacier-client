@@ -4,11 +4,11 @@ from typing import Iterator, List
 import ijson
 from munch import munchify
 
+from widgets import widgets_map
 from archive import Archive
 from inventory_manager import Inventories
 from regions import Region
 from tasks.base_task import Task
-from widgets.files_table import FilesTable
 
 
 class DownloadInventoryTask(Task):
@@ -27,7 +27,7 @@ class DownloadInventoryTask(Task):
         inventory: List[Archive] = list(self.get_archives_list(body_stream))
 
         Inventories.new_inventory(self.region, self.vault, inventory)
-        FilesTable.display_inventory(self.region, self.vault, inventory)
+        widgets_map['files_table'].display_inventory(self.region, self.vault, inventory)
 
     def __repr__(self):
         return f"Downloading inventory from region '{self.region.name}', vault '{self.vault}'"

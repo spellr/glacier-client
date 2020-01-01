@@ -1,4 +1,5 @@
 import time
+from enum import Enum
 from datetime import timedelta, datetime
 
 from munch import munchify
@@ -10,15 +11,21 @@ from tasks.base_task import Task
 from tasks.download_inventory import DownloadInventoryTask
 
 
-class WaitForInventoryTask(Task):
+class JobOutput(Enum):
+    INVENTORY = "inventory"
+    ARCHIVE = "archive"
+
+
+class WaitForJobTask(Task):
     SLEEP_TIME = 15 * 60
 
-    def __init__(self, region: Region, vault: str, job: dict):
-        super(WaitForInventoryTask, self).__init__(region)
+    def __init__(self, region: Region, vault: str, job: dict, job_output: JobOutput):
+        super(WaitForJobTask, self).__init__(region)
         self.vault = vault
         self.job = munchify(job)
         self.job_id = self.job.jobId
         self.next_check = None
+        self.job_output = job_output
 
     def run(self):
         client = self.get_boto_client()
@@ -35,11 +42,14 @@ class WaitForInventoryTask(Task):
             job_output = client.describe_job(vaultName=self.vault, jobId=self.job_id)
             completed = job_output["Completed"]
 
-        TaskManager.add_task(DownloadInventoryTask(self.region, self.vault, self.job))
+        if self.job_output == JobOutput.INVENTORY:
+            TaskManager.add_task(DownloadInventoryTask(self.region, self.vault, self.job))
+        else:
+            TaskManager.add_task(DownloadArchiveTask(self.region, self.vault, self.job))
 
     def __repr__(self):
         if self.next_check:
             next_check = self.next_check.strftime("%H:%M:%S")
-            return f"Waiting for inventory from vault '{self.vault}' in '{self.region.name}'. Next check in {next_check}"
+            return f"Waiting for {self.job_output.value} from vault '{self.vault}' in '{self.region.name}'. Next check in {next_check}"
         else:
-            return f"Waiting for inventory from vault '{self.vault}' in '{self.region.name}'"
+            return f"Waiting for {self.job_output.value} from vault '{self.vault}' in '{self.region.name}'"
