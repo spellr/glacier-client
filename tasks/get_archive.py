@@ -8,10 +8,11 @@ from tasks.wait_for_job import WaitForJobTask, JobOutput
 
 
 class GetArchiveTask(Task):
-    def __init__(self, region: Region, vault: str, archive: Archive):
+    def __init__(self, region: Region, vault: str, archive: Archive, output_file: str):
         super(GetArchiveTask, self).__init__(region)
         self.archive: Archive = archive
         self.vault = vault
+        self.output_file = output_file
 
     def __repr__(self):
         return f"Requesting archive {self.archive.description} from region '{self.region.name}', vault '{self.vault}'"
@@ -27,4 +28,4 @@ class GetArchiveTask(Task):
         job = client.initiate_job(vaultName=self.vault, jobParameters=job_params)
         logging.info(f"Initiated job to retrieve archive. Job id = {job['jobId']}")
 
-        TaskManager.add_task(WaitForJobTask(self.region, self.vault, job, JobOutput.ARCHIVE))
+        TaskManager.add_task(WaitForJobTask(self.region, self.vault, job, JobOutput.ARCHIVE, self.output_file))

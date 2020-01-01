@@ -2,7 +2,7 @@ import logging
 from typing import cast, Optional
 
 from PyQt5.QtCore import QObject
-from PyQt5.QtWidgets import QMainWindow, QPushButton
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QFileDialog
 
 from archive import Archive
 from regions import Region
@@ -25,7 +25,12 @@ class _DownloadButton(QObject):
         region: Region = files_table.displayed_region
         vault: str = files_table.displayed_vault
         archive: Archive = files_table.get_active_archive()
-        TaskManager.add_task(GetArchiveTask(region, vault, archive))
+
+        output_file = QFileDialog.getSaveFileName(self.button, "Output file location", archive.description)[0]
+        if not output_file:
+            return
+
+        TaskManager.add_task(GetArchiveTask(region, vault, archive, output_file))
 
     def initialize(self, window: QMainWindow):
         self.button = cast(QPushButton, window.findChild(QPushButton, 'download_btn'))

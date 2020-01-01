@@ -4,10 +4,10 @@ from datetime import timedelta, datetime
 
 from munch import munchify
 
-import consts
 from regions import Region
 from task_manager import TaskManager
 from tasks.base_task import Task
+from tasks.download_archive import DownloadArchiveTask
 from tasks.download_inventory import DownloadInventoryTask
 
 
@@ -19,13 +19,14 @@ class JobOutput(Enum):
 class WaitForJobTask(Task):
     SLEEP_TIME = 15 * 60
 
-    def __init__(self, region: Region, vault: str, job: dict, job_output: JobOutput):
+    def __init__(self, region: Region, vault: str, job: dict, job_output: JobOutput, output_file: str):
         super(WaitForJobTask, self).__init__(region)
         self.vault = vault
         self.job = munchify(job)
         self.job_id = self.job.jobId
         self.next_check = None
         self.job_output = job_output
+        self.output_file = output_file
 
     def run(self):
         client = self.get_boto_client()
@@ -45,7 +46,7 @@ class WaitForJobTask(Task):
         if self.job_output == JobOutput.INVENTORY:
             TaskManager.add_task(DownloadInventoryTask(self.region, self.vault, self.job))
         else:
-            TaskManager.add_task(DownloadArchiveTask(self.region, self.vault, self.job))
+            TaskManager.add_task(DownloadArchiveTask(self.region, self.vault, self.job, self.output_file))
 
     def __repr__(self):
         if self.next_check:

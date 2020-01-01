@@ -17,7 +17,7 @@ class GetInventoryTask(Task):
         job = client.initiate_job(vaultName=self.vault, jobParameters={"Type": "inventory-retrieval"})
         logging.info(f"Initiated job to retrieve inventory. Job id = {job['jobId']}")
 
-        TaskManager.add_task(WaitForJobTask(self.region, self.vault, job, JobOutput.INVENTORY))
+        TaskManager.add_task(WaitForJobTask(self.region, self.vault, job, JobOutput.INVENTORY, ""))
 
     def __repr__(self):
         return f"Getting last inventory from region '{self.region.name}', vault '{self.vault}'"
