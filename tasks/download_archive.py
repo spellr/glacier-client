@@ -29,6 +29,7 @@ class DownloadArchiveTask(Task):
             chunk = body_stream.read(4 * 1024 * 1024)
             while chunk:
                 output.write(chunk)
+                chunk = body_stream.read(4 * 1024 * 1024)
 
     def __repr__(self):
         return f"Downloading archive from region '{self.region.name}', vault '{self.vault}'"

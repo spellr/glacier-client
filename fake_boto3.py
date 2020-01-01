@@ -18,7 +18,7 @@ client.describe_job.return_value = {
 
 def get_inventory(vaultName, jobId):
     return {
-        "body": open('inventory.json')
+        "body": open('inventory.json', 'rb')
     }
 
 
