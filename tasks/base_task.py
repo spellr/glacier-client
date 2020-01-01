@@ -2,14 +2,14 @@ import abc
 import consts
 import logging
 
+from regions import Region
+from keys import PUBLIC_KEY, SECRET_KEY
+from widgets.tasks_table import TasksTable
+
 if consts.DEBUG:
     from fake_boto3 import boto3
 else:
     import boto3
-
-from regions import Region
-from keys import PUBLIC_KEY, SECRET_KEY
-from widgets.tasks_table import TasksTable
 
 
 class Task(object, metaclass=abc.ABCMeta):

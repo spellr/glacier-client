@@ -40,5 +40,3 @@ class TaskManagerSingleton(object):
 
 
 TaskManager = TaskManagerSingleton()
-
-
