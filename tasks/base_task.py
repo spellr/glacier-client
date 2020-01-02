@@ -5,7 +5,6 @@ import logging
 import boto3
 
 from regions import Region
-from keys import PUBLIC_KEY, SECRET_KEY
 from widgets.tasks_table import TasksTable
 
 
