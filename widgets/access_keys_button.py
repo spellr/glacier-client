@@ -4,6 +4,7 @@ from typing import Optional, cast
 import botocore.exceptions, botocore.client
 from PyQt5 import uic
 from PyQt5.QtCore import QObject, Qt
+from PyQt5.QtGui import QPalette
 from PyQt5.QtWidgets import QPushButton, QMainWindow, QDialog, QLineEdit, QMessageBox, QCheckBox
 
 from keys import Keys
@@ -59,16 +60,32 @@ class _AccessKeysButton(QObject):
     def __init__(self):
         super(_AccessKeysButton, self).__init__()
         self.button: Optional[QPushButton] = None
+        self.orig_palette: Optional[QPalette] = None
 
     def on_click(self):
         logging.info("Access keys button clicked!")
         dialog = AccessKeysDialog()
-        dialog.exec()
+        res = dialog.exec()
+        if res == QDialog.Accepted:
+            self.unhighlight()
 
     def initialize(self, window: QMainWindow):
         self.button = cast(QPushButton, window.findChild(QPushButton, 'access_keys_button'))
-
         self.button.clicked.connect(self.on_click)
+
+        self.orig_palette: Optional[QPalette] = self.button.palette()
+
+        if not Keys.has_keys():
+            self.highlight()
+
+    def unhighlight(self):
+        self.button.setPalette(self.orig_palette)
+
+    def highlight(self):
+        palette: QPalette = QPalette(self.orig_palette)
+        palette.setColor(QPalette.Button, Qt.red)
+        palette.setColor(QPalette.ButtonText, Qt.red)
+        self.button.setPalette(palette)
 
 
 AccessKeysButton = _AccessKeysButton()
