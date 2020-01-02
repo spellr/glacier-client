@@ -35,5 +35,9 @@ class Keys(object):
         data = yaml.safe_load(open(KEYS_FILE, 'r'))
         cls.from_dict(data)
 
+    @classmethod
+    def has_keys(cls):
+        return bool(cls.ACCESS_KEY)
+
 
 Keys.load_from_file()

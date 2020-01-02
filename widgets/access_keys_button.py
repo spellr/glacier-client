@@ -9,6 +9,8 @@ from PyQt5.QtWidgets import QPushButton, QMainWindow, QDialog, QLineEdit, QMessa
 from keys import Keys
 from regions import REGIONS
 from boto import get_boto
+from task_manager import TaskManager
+from tasks.list_vaults import ListVaultsTask
 from widgets import widgets_map
 
 access_keys_dialog = uic.loadUiType("keys_dialog.ui")[0]
@@ -42,6 +44,10 @@ class AccessKeysDialog(QDialog, access_keys_dialog):
 
         if self.save_creds_checkbox.isChecked():
             Keys.dump_to_file()
+
+        for region in REGIONS:
+            if Keys.has_keys():
+                TaskManager.add_task(ListVaultsTask(region))
 
         super(AccessKeysDialog, self).accept()
 

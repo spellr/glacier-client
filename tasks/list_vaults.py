@@ -1,14 +1,10 @@
 import logging
 
-from regions import Region
 from tasks.base_task import Task
+from widgets import widgets_map
 
 
 class ListVaultsTask(Task):
-    def __init__(self, region: Region, tree_view):
-        super(ListVaultsTask, self).__init__(region)
-        self.tree_view = tree_view
-
     def __repr__(self):
         return f"{self.__class__.__name__}({self.region})"
 
@@ -20,4 +16,4 @@ class ListVaultsTask(Task):
 
         for vault in vaults:
             vault_name = vault['VaultName']
-            self.tree_view.add_vault(self.region, vault_name)
+            widgets_map['region_tree'].add_vault(self.region, vault_name)

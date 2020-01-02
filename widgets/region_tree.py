@@ -4,6 +4,7 @@ from PyQt5.QtCore import QModelIndex
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QTreeView, QMainWindow, QAction, QMenu
 
+import keys
 import regions
 from widgets import widgets_map
 from inventory_manager import Inventories
@@ -57,7 +58,8 @@ class _RegionTree(object):
         for region in REGIONS:
             item = QStandardItem(region.name)
             root.appendRow(item)
-            TaskManager.add_task(ListVaultsTask(region, self))
+            if keys.Keys.has_keys():
+                TaskManager.add_task(ListVaultsTask(region))
 
     def open_menu(self, position):
         level = 0
