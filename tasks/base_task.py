@@ -2,14 +2,11 @@ import abc
 import consts
 import logging
 
+import boto3
+
 from regions import Region
 from keys import PUBLIC_KEY, SECRET_KEY
 from widgets.tasks_table import TasksTable
-
-if consts.DEBUG:
-    from fake_boto3 import boto3
-else:
-    import boto3
 
 
 class Task(object, metaclass=abc.ABCMeta):
@@ -36,6 +33,9 @@ class Task(object, metaclass=abc.ABCMeta):
 
     def get_boto_client(self):
         session = boto3.session.Session()
-        client = session.client('glacier', region_name=self.region.code,
+        endpoint_url = None
+        if consts.DEBUG:
+            endpoint_url = 'http://localhost:5000'
+        client = session.client('glacier', region_name=self.region.code, endpoint_url=endpoint_url,
                                 aws_access_key_id=PUBLIC_KEY, aws_secret_access_key=SECRET_KEY)
         return client

@@ -4,6 +4,7 @@ from datetime import timedelta, datetime
 
 from munch import munchify
 
+import consts
 from regions import Region
 from task_manager import TaskManager
 from tasks.base_task import Task
@@ -17,7 +18,10 @@ class JobOutput(Enum):
 
 
 class WaitForJobTask(Task):
-    SLEEP_TIME = 15 * 60
+    if consts.DEBUG:
+        SLEEP_TIME = 3
+    else:
+        SLEEP_TIME = 15 * 60
 
     def __init__(self, region: Region, vault: str, job: dict, job_output: JobOutput, output_file: str):
         super(WaitForJobTask, self).__init__(region)

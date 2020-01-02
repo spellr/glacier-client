@@ -6,7 +6,9 @@ from widgets.region_tree import RegionTree
 from widgets.tasks_table import TasksTable
 from widgets.files_table import FilesTable
 from widgets.download_button import DownloadButton
-from task_manager import TaskManager
+import mock_aws
+
+mock_aws.setup_aws_mock()
 
 logging.basicConfig(level=logging.DEBUG)
 
