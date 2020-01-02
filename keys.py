@@ -1,3 +1,4 @@
+import os
 from typing import Dict
 
 import yaml
@@ -28,6 +29,11 @@ class Keys(object):
 
     @classmethod
     def load_from_file(cls):
-        data = yaml.load(open(KEYS_FILE, 'r'))
+        if not os.path.exists(KEYS_FILE):
+            return
+
+        data = yaml.safe_load(open(KEYS_FILE, 'r'))
         cls.from_dict(data)
 
+
+Keys.load_from_file()
