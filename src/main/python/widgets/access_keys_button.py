@@ -7,6 +7,7 @@ from PyQt5 import uic
 from PyQt5.QtCore import QObject, Qt
 from PyQt5.QtGui import QPalette
 from PyQt5.QtWidgets import QPushButton, QMainWindow, QDialog, QLineEdit, QMessageBox, QCheckBox
+from fbs_runtime.application_context.PyQt5 import ApplicationContext
 
 from keys import Keys
 from regions import REGIONS
@@ -15,7 +16,7 @@ from task_manager import TaskManager
 from tasks.list_vaults import ListVaultsTask
 from widgets import widgets_map
 
-access_keys_dialog = uic.loadUiType("keys_dialog.ui")[0]
+access_keys_dialog = uic.loadUiType(ApplicationContext().get_resource("keys_dialog.ui"))[0]
 
 
 class AccessKeysDialog(QDialog, access_keys_dialog):

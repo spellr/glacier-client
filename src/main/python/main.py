@@ -18,7 +18,7 @@ class AppContext(ApplicationContext):
         mock_aws.setup_aws_mock()
         logging.basicConfig(level=logging.DEBUG)
 
-        Form, Window = uic.loadUiType("mainwindow.ui")
+        Form, Window = uic.loadUiType(self.get_resource("mainwindow.ui"))
         window: QMainWindow = Window()
 
         form = Form()
