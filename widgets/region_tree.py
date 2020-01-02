@@ -70,11 +70,7 @@ class _RegionTree(object):
                 level += 1
 
         menu = QMenu()
-        if level == 0:
-            get_all_inventories_action = QAction("Request last inventory for all vaults", self.view)
-            get_all_inventories_action.triggered.connect(self.get_inventory_action)
-            menu.addAction(get_all_inventories_action)
-        else:
+        if level == 1:
             get_inventory_action = QAction("Request last inventory", self.view)
             get_inventory_action.triggered.connect(self.get_inventory_action)
             menu.addAction(get_inventory_action)

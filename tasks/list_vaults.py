@@ -1,3 +1,5 @@
+import logging
+
 from regions import Region
 from tasks.base_task import Task
 
@@ -14,7 +16,7 @@ class ListVaultsTask(Task):
         client = self.get_boto_client()
         vaults = client.list_vaults()['VaultList']
         for vault in vaults:
-            print(f"{self.region.name}: {vault['VaultName']}")
+            logging.info(f"Found vault - {self.region.name}: {vault['VaultName']}")
 
         for vault in vaults:
             vault_name = vault['VaultName']
