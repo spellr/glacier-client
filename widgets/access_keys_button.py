@@ -4,9 +4,9 @@ from typing import Optional, cast
 import botocore.exceptions, botocore.client
 from PyQt5 import uic
 from PyQt5.QtCore import QObject, Qt
-from PyQt5.QtGui import QCloseEvent, QHideEvent
-from PyQt5.QtWidgets import QPushButton, QMainWindow, QDialog, QLineEdit, QMessageBox
+from PyQt5.QtWidgets import QPushButton, QMainWindow, QDialog, QLineEdit, QMessageBox, QCheckBox
 
+from keys import Keys
 from regions import REGIONS
 from boto import get_boto
 from widgets import widgets_map
@@ -22,6 +22,7 @@ class AccessKeysDialog(QDialog, access_keys_dialog):
 
         self.access_key_input: QLineEdit = cast(QLineEdit, self.findChild(QLineEdit, "access_input"))
         self.secret_key_input: QLineEdit = cast(QLineEdit, self.findChild(QLineEdit, "secret_input"))
+        self.save_creds_checkbox: QCheckBox = cast(QCheckBox, self.findChild(QCheckBox, "save_creds_checkbox"))
 
     def accept(self) -> None:
         access_key = self.access_key_input.text()
@@ -35,6 +36,12 @@ class AccessKeysDialog(QDialog, access_keys_dialog):
             boto.list_vaults()
         except botocore.exceptions.ClientError:
             return self._invalid_access_keys_msg_box("Keys are invalid. Please validate the access keys, and retry")
+
+        Keys.ACCESS_KEY = access_key
+        Keys.SECRET_KEY = secret_key
+
+        if self.save_creds_checkbox.isChecked():
+            Keys.dump_to_file()
 
         super(AccessKeysDialog, self).accept()
 
