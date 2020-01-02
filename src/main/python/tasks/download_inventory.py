@@ -2,7 +2,6 @@ import logging
 from typing import Iterator, List
 
 import ijson
-from munch import munchify
 
 from widgets import widgets_map
 from archive import Archive
@@ -15,8 +14,8 @@ class DownloadInventoryTask(Task):
     def __init__(self, region: Region, vault: str, job: dict):
         super(DownloadInventoryTask, self).__init__(region)
         self.vault = vault
-        self.job = munchify(job)
-        self.job_id = self.job.jobId
+        self.job = job
+        self.job_id = self.job["jobId"]
 
     def run(self):
         client = self.get_boto_client()

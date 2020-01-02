@@ -1,7 +1,7 @@
 import os
 import appdirs
 
-DEBUG = True
+DEBUG = False
 
 APP_NAME = "glacier_client"
 

@@ -1,8 +1,6 @@
 import logging
 from typing import BinaryIO
 
-from munch import munchify
-
 from regions import Region
 from tasks.base_task import Task
 
@@ -11,8 +9,8 @@ class DownloadArchiveTask(Task):
     def __init__(self, region: Region, vault: str, job: dict, output_file: str):
         super(DownloadArchiveTask, self).__init__(region)
         self.vault = vault
-        self.job = munchify(job)
-        self.job_id = self.job.jobId
+        self.job = job
+        self.job_id = self.job["jobId"]
         self.output_file = output_file
 
     def run(self):

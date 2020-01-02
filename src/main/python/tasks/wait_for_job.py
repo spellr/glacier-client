@@ -2,8 +2,6 @@ import time
 from enum import Enum
 from datetime import timedelta, datetime
 
-from munch import munchify
-
 import consts
 from regions import Region
 from task_manager import TaskManager
@@ -26,8 +24,8 @@ class WaitForJobTask(Task):
     def __init__(self, region: Region, vault: str, job: dict, job_output: JobOutput, output_file: str):
         super(WaitForJobTask, self).__init__(region)
         self.vault = vault
-        self.job = munchify(job)
-        self.job_id = self.job.jobId
+        self.job = job
+        self.job_id = self.job["jobId"]
         self.next_check = None
         self.job_output = job_output
         self.output_file = output_file
