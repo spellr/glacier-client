@@ -1,12 +1,8 @@
 import logging
-from typing import Iterator, List, BinaryIO
+from typing import BinaryIO
 
-import ijson
 from munch import munchify
 
-from widgets import widgets_map
-from archive import Archive
-from inventory_manager import Inventories
 from regions import Region
 from tasks.base_task import Task
 

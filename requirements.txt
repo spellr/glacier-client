@@ -1,0 +1,8 @@
+PyYAML>=5.2
+appdirs>=1.4.3
+boto3>=1.10.45
+python-dateutil>=2.8.1
+botocore>=1.13.45
+PyQt5>=5.14.0
+ijson>=2.5.1
+munch>=2.5.0

@@ -1,8 +1,5 @@
 import abc
-import consts
 import logging
-
-import boto3
 
 from boto import get_boto
 from regions import Region

@@ -1,10 +1,9 @@
 import os
 import pickle
 from typing import Dict, Sequence
-from collections import defaultdict
 
-from consts import DATA_DIR
 from archive import Archive
+from consts import DATA_DIR
 from regions import Region
 
 

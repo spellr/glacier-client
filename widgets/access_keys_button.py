@@ -1,7 +1,8 @@
 import logging
 from typing import Optional, cast
 
-import botocore.exceptions, botocore.client
+import botocore.exceptions
+import botocore.client
 from PyQt5 import uic
 from PyQt5.QtCore import QObject, Qt
 from PyQt5.QtGui import QPalette
