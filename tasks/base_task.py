@@ -4,6 +4,7 @@ import logging
 
 import boto3
 
+from boto import get_boto
 from regions import Region
 from widgets.tasks_table import TasksTable
 
@@ -31,10 +32,4 @@ class Task(object, metaclass=abc.ABCMeta):
         TasksTable.update_task(self.task_row, str(self), size)
 
     def get_boto_client(self):
-        session = boto3.session.Session()
-        endpoint_url = None
-        if consts.DEBUG:
-            endpoint_url = 'http://localhost:5000'
-        client = session.client('glacier', region_name=self.region.code, endpoint_url=endpoint_url,
-                                aws_access_key_id=PUBLIC_KEY, aws_secret_access_key=SECRET_KEY)
-        return client
+        return get_boto(self.region)

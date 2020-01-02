@@ -1,11 +1,14 @@
 import logging
 from typing import Optional, cast
 
+import botocore.exceptions, botocore.client
 from PyQt5 import uic
 from PyQt5.QtCore import QObject, Qt
 from PyQt5.QtGui import QCloseEvent, QHideEvent
-from PyQt5.QtWidgets import QPushButton, QMainWindow, QDialog
+from PyQt5.QtWidgets import QPushButton, QMainWindow, QDialog, QLineEdit, QMessageBox
 
+from regions import REGIONS
+from boto import get_boto
 from widgets import widgets_map
 
 access_keys_dialog = uic.loadUiType("keys_dialog.ui")[0]
@@ -16,6 +19,27 @@ class AccessKeysDialog(QDialog, access_keys_dialog):
         QDialog.__init__(self, parent)
         self.setWindowFlag(Qt.WindowContextHelpButtonHint, False)
         self.setupUi(self)
+
+        self.access_key_input: QLineEdit = cast(QLineEdit, self.findChild(QLineEdit, "access_input"))
+        self.secret_key_input: QLineEdit = cast(QLineEdit, self.findChild(QLineEdit, "secret_input"))
+
+    def accept(self) -> None:
+        access_key = self.access_key_input.text()
+        secret_key = self.secret_key_input.text()
+
+        if not access_key or not secret_key:
+            return self._invalid_access_keys_msg_box("Please fill both access key and secret key")
+
+        boto = get_boto(REGIONS[0], access_key=access_key, secret_key=secret_key)
+        try:
+            boto.list_vaults()
+        except botocore.exceptions.ClientError:
+            return self._invalid_access_keys_msg_box("Keys are invalid. Please validate the access keys, and retry")
+
+        super(AccessKeysDialog, self).accept()
+
+    def _invalid_access_keys_msg_box(self, msg) -> None:
+        QMessageBox.warning(self, "Invalid access keys", msg, QMessageBox.Ok)
 
 
 class _AccessKeysButton(QObject):
