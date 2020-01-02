@@ -55,7 +55,7 @@
                </size>
               </property>
               <property name="text">
-               <string>Setup Access Keys</string>
+               <string>Set Access Keys</string>
               </property>
               <property name="default">
                <bool>false</bool>
