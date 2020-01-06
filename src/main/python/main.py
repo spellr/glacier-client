@@ -5,6 +5,7 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow
 from fbs_runtime.application_context.PyQt5 import ApplicationContext
 
+from widgets.create_vault_button import CreateVaultButton
 from widgets.region_tree import RegionTree
 from widgets.tasks_table import TasksTable
 from widgets.files_table import FilesTable
@@ -29,6 +30,7 @@ class AppContext(ApplicationContext):
         FilesTable.initialize(window)
 
         DownloadButton.initialize(window)
+        CreateVaultButton.initialize(window)
         AccessKeysButton.initialize(window)
 
         window.show()

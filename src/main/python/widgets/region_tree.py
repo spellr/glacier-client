@@ -20,14 +20,24 @@ class _RegionTree(object):
         self.view = None
         self.model = None
 
-    def on_clicked(self, index: QModelIndex):
-        if not index.parent().isValid():
-            return
+    def on_clicked_region(self):
+        widgets_map['create_vault_button'].set_enabled(True)
 
+        region = self.get_selected_region()
+
+    def on_clicked_vault(self):
         region = self.get_selected_region()
         vault = self.get_selected_vault()
         inventory = Inventories.get_inventory(region, vault)
         FilesTable.display_inventory(region, vault, inventory)
+
+    def on_clicked(self, index: QModelIndex):
+        widgets_map['create_vault_button'].set_enabled(False)
+
+        if index.parent().isValid():
+            self.on_clicked_vault()
+        else:
+            self.on_clicked_region()
 
     def get_selected_region(self):
         index = self.view.selectedIndexes()[0]

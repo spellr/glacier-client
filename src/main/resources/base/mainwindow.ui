@@ -50,7 +50,7 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>0</width>
+                <width>90</width>
                 <height>40</height>
                </size>
               </property>
@@ -65,6 +65,22 @@
               </property>
               <property name="flat">
                <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="create_vault_btn">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>90</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Create Vault</string>
               </property>
              </widget>
             </item>
