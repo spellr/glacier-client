@@ -1,4 +1,4 @@
-docker build --tag glacier_client .
+docker build --tag glacier_client . -f Dockerfile.ubuntu
 
 for /f %%i in ('docker create glacier_client') do set ID=%%i
 
