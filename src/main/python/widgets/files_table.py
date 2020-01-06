@@ -44,6 +44,8 @@ class _FilesTable(object):
             item = QTableWidgetItem(archive.creation_date.strftime("%m/%d/%Y %H:%M:%S"))
             self.view.setItem(i, 2, item)
 
+        widgets_map['upload_button'].set_enabled(True)
+
     def get_active_archive(self):
         row = self.view.selectedItems()[0].row()
         return self.archive_map[row]

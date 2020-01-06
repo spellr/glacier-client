@@ -12,6 +12,7 @@ from widgets.files_table import FilesTable
 from widgets.download_button import DownloadButton
 from widgets.access_keys_button import AccessKeysButton
 import mock_aws
+from widgets.upload_button import UploadButton
 
 
 class AppContext(ApplicationContext):
@@ -30,6 +31,7 @@ class AppContext(ApplicationContext):
         FilesTable.initialize(window)
 
         DownloadButton.initialize(window)
+        UploadButton.initialize(window)
         CreateVaultButton.initialize(window)
         AccessKeysButton.initialize(window)
 
