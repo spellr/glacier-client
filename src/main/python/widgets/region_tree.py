@@ -23,8 +23,6 @@ class _RegionTree(object):
     def on_clicked_region(self):
         widgets_map['create_vault_button'].set_enabled(True)
 
-        region = self.get_selected_region()
-
     def on_clicked_vault(self):
         region = self.get_selected_region()
         vault = self.get_selected_vault()

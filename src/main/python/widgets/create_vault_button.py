@@ -2,13 +2,12 @@ import logging
 from typing import cast, Optional
 
 from PyQt5.QtCore import QObject
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QInputDialog
 
-from archive import Archive
 from regions import Region
+from tasks.create_vault import CreateVaultTask
 from widgets import widgets_map
 from task_manager import TaskManager
-from tasks.get_archive import GetArchiveTask
 
 
 class _CreateVaultButton(QObject):
@@ -21,16 +20,13 @@ class _CreateVaultButton(QObject):
 
     def on_click(self):
         logging.info("Create vault clicked!")
-        files_table = widgets_map['files_table']
-        region: Region = files_table.displayed_region
-        vault: str = files_table.displayed_vault
-        archive: Archive = files_table.get_active_archive()
+        region: Region = widgets_map['region_tree'].get_selected_region()
 
-        output_file = QFileDialog.getSaveFileName(self.button, "Output file location", archive.description)[0]
-        if not output_file:
+        vault_name, ok = QInputDialog.getText(self.button, "New vault name", "Name for the new vault:")
+        if not ok or not vault_name:
             return
 
-        TaskManager.add_task(GetArchiveTask(region, vault, archive, output_file))
+        TaskManager.add_task(CreateVaultTask(region, vault_name))
 
     def initialize(self, window: QMainWindow):
         self.button = cast(QPushButton, window.findChild(QPushButton, 'create_vault_btn'))
