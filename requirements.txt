@@ -3,7 +3,7 @@ appdirs>=1.4.3
 boto3>=1.10.46
 python-dateutil>=2.8.1
 botocore>=1.13.46
-PyQt5>=5.14.0
+PyQt5==5.14.0
 ijson>=2.5.1
 fbs>=0.8.4
 PyInstaller>=3.5
