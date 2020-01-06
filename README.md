@@ -2,7 +2,7 @@
 
 A cross-platform Amazon AWS glacier client.
 
-Use this client's interface to list archives stored in AWS Glacier, and to download them.
+Use this client's interface to list archives stored in AWS Glacier, to download them, and to upload archives to AWS glacier.
 
 Using this client with AWS Glacier gives you the ability to backup your data, in a cheap and accessible way.
 
