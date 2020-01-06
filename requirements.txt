@@ -7,3 +7,4 @@ PyQt5>=5.14.0
 ijson>=2.5.1
 fbs>=0.8.4
 PyInstaller>=3.5
+TreeHash>=1.0.2
